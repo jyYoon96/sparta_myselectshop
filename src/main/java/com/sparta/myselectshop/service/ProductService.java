@@ -8,6 +8,9 @@ import com.sparta.myselectshop.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -15,6 +18,17 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     public static final int MIN_MY_PRICE = 100;
+
+    public List<ProductResponseDto> getProducts() {
+
+        List<Product> productList = productRepository.findAll();
+        List<ProductResponseDto> responseDtoList = new ArrayList<>();
+
+        for (Product product : productList) {
+            responseDtoList.add(new ProductResponseDto(product));
+        }
+        return responseDtoList;
+    }
 
     public ProductResponseDto createProduct(ProductRequestDto requestDto) {
 
