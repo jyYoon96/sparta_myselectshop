@@ -11,8 +11,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     Page<Product> findAllByUser(User user, Pageable pageable);
 
     Page<Product> findAllByUserAndProductFolderList_FolderId(User user, Long folderId, Pageable pageable);
-    //
-
-
+//    select p.id, p.title, pf.product_id, pf.folder_id from product p leftjoin product_folder pf
+//        on p.id = pf.product_id
+//    where p.user_id = ?
+//        and pf.folder_id = ?
+//    order By p.id
+//      limit 0, 10;
 
 }
