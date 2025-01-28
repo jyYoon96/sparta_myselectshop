@@ -4,6 +4,7 @@ import com.sparta.myselectshop.dto.ProductMypriceRequestDto;
 import com.sparta.myselectshop.dto.ProductRequestDto;
 import com.sparta.myselectshop.dto.ProductResponseDto;
 import com.sparta.myselectshop.entity.Product;
+import com.sparta.myselectshop.entity.User;
 import com.sparta.myselectshop.naver.dto.ItemDto;
 import com.sparta.myselectshop.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,9 +22,9 @@ public class ProductService {
 
     public static final int MIN_MY_PRICE = 100;
 
-    public List<ProductResponseDto> getProducts() {
+    public List<ProductResponseDto> getProducts(User user) {
 
-        List<Product> productList = productRepository.findAll();
+        List<Product> productList = productRepository.findAllByUser(user);
         List<ProductResponseDto> responseDtoList = new ArrayList<>();
 
         for (Product product : productList) {
@@ -32,9 +33,9 @@ public class ProductService {
         return responseDtoList;
     }
 
-    public ProductResponseDto createProduct(ProductRequestDto requestDto) {
+    public ProductResponseDto createProduct(ProductRequestDto requestDto, User user) {
 
-        Product product = productRepository.save(new Product(requestDto));
+        Product product = productRepository.save(new Product(requestDto, user));
 
         return new ProductResponseDto(product);
     }
@@ -63,5 +64,16 @@ public class ProductService {
         );
 
         product.updateByItemDto(itemDto);
+    }
+
+    public List<ProductResponseDto> getAllProducts() {
+        List<Product> productList = productRepository.findAll();
+        List<ProductResponseDto> responseDtoList = new ArrayList<>();
+
+        for (Product product : productList) {
+            responseDtoList.add(new ProductResponseDto(product));
+        }
+        return responseDtoList;
+
     }
 }
