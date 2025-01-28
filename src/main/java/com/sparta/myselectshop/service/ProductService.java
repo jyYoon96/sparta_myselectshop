@@ -59,6 +59,7 @@ public class ProductService {
     }
 
 
+    @Transactional
     public ProductResponseDto updateProduct(Long id, ProductMypriceRequestDto requestDto) {
 
         int myprice = requestDto.getMyprice();
