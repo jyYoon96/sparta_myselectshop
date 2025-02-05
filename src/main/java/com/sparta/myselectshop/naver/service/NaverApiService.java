@@ -5,6 +5,7 @@ import com.sparta.myselectshop.naver.dto.ItemDto;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,12 @@ import java.util.List;
 @Slf4j(topic = "NAVER API")
 @Service
 public class NaverApiService {
+
+    @Value("${naver.api.client-id}")
+    private String clientId;
+
+    @Value("${naver.api.client-secret}")
+    private String clientSecret;
 
     private final RestTemplate restTemplate;
 
@@ -40,8 +47,8 @@ public class NaverApiService {
 
         RequestEntity<Void> requestEntity = RequestEntity
                 .get(uri)
-                .header("X-Naver-Client-Id", "nqxS1Q5PHYS3362sC1bn")
-                .header("X-Naver-Client-Secret", "mOHGIeATnc")
+                .header("X-Naver-Client-Id", clientId)
+                .header("X-Naver-Client-Secret", clientSecret)
                 .build();
 
         ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity, String.class);
